@@ -1,0 +1,55 @@
+{
+    "name": "webduonederland/filament-cms",
+    "description": "Highly advanced CMS for your Laravel website built with FilamentPHP!",
+    "type": "package",
+    "license": "MIT",
+    "keywords": [
+        "filament",
+        "laravel",
+        "filament cms"
+    ],
+    "require": {
+        "php": "^8.3",
+        "filament/filament": "^3.2",
+        "laravel/framework": "^11.0"
+    },
+    "require-dev": {
+        "larastan/larastan": "^2.0",
+        "laravel/pint": "^1.15",
+        "orchestra/testbench": "^9.0"
+    },
+    "authors": [
+        {
+            "name": "Finn Paes",
+            "email": "finn@webduo.nl"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "WebduoNederland\\FilamentCms\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "WebduoNederland\\FilamentCms\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "style": "./vendor/bin/pint",
+        "test": "./vendor/bin/phpunit",
+        "analyse": "./vendor/bin/phpstan analyse --memory-limit=2G"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "WebduoNederland\\FilamentCms\\FilamentCmsServiceProvider",
+                "WebduoNederland\\FilamentCms\\FilamentCmsPanelProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
