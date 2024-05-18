@@ -35,4 +35,26 @@ return [
     |
     */
     'layout' => 'filament-cms::layouts.app',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Time formatting
+    |--------------------------------------------------------------------------
+    |
+    | This value determines the time formatting used across the panel
+    |
+    */
+    'time_format' => 'd-m-Y H:i',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Route middlewares
+    |--------------------------------------------------------------------------
+    |
+    | A list of middlewares which will be hit on each page request
+    |
+    */
+    'route_middleware' => [
+        \WebduoNederland\FilamentCms\Http\Middleware\RedirectMiddleware::class,
+    ],
 ];
