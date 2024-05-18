@@ -4,6 +4,7 @@ namespace WebduoNederland\FilamentCms;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
 
 class FilamentCmsServiceProvider extends ServiceProvider
 {
@@ -17,7 +18,10 @@ class FilamentCmsServiceProvider extends ServiceProvider
             ->bootConfig()
             ->bootMigrations()
             ->bootCommands()
-            ->bootTranslations();
+            ->bootTranslations()
+            ->bootViews()
+            ->bootLivewire()
+            ->bootRoutes();
     }
 
     protected function bootAuthGuard(): self
@@ -65,6 +69,28 @@ class FilamentCmsServiceProvider extends ServiceProvider
     protected function bootTranslations(): self
     {
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'filament-cms');
+
+        return $this;
+    }
+
+    protected function bootViews(): self
+    {
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'filament-cms');
+
+        return $this;
+    }
+
+    protected function bootLivewire(): self
+    {
+        Livewire::component('filament-cms::base-page', \WebduoNederland\FilamentCms\Http\Livewire\BasePage::class);
+        Livewire::component('filament-cms::simple-text', \WebduoNederland\FilamentCms\Http\Livewire\Components\SimpleText::class);
+
+        return $this;
+    }
+
+    protected function bootRoutes(): self
+    {
+        $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
 
         return $this;
     }

@@ -3,17 +3,20 @@
 namespace WebduoNederland\FilamentCms\Filament\Resources;
 
 use Filament\Forms\Components\Builder;
+use Filament\Forms\Components\Builder\Block;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Tabs\Tab;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\HtmlString;
 use WebduoNederland\FilamentCms\Enums\PageStatusEnum;
 use WebduoNederland\FilamentCms\Filament\Resources\FilamentCmsPageResource\Pages;
 use WebduoNederland\FilamentCms\Models\FilamentCmsPage;
@@ -47,14 +50,12 @@ class FilamentCmsPageResource extends Resource
                             ->icon('heroicon-m-home')
                             ->schema([
                                 TextInput::make('name')
-                                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', str($state)->slug()))
-                                    ->live(true)
                                     ->rules(['required', 'max:255'])
                                     ->required(),
 
                                 TextInput::make('slug')
-                                    ->prefix(config('app.url').'/')
                                     ->rules(['required', 'max:255'])
+                                    ->helperText('If this needs to be the home/landing page simply enter a: /')
                                     ->required(),
 
                                 Select::make('status')
@@ -70,9 +71,52 @@ class FilamentCmsPageResource extends Resource
                             ->schema([
                                 Builder::make('components')
                                     ->addActionLabel(__('filament-cms::filament.pages.add_component_btn'))
-                                    ->schema([
-                                        // ..
-                                    ]),
+                                    ->reorderable()
+                                    ->reorderableWithButtons()
+                                    ->cloneable()
+                                    ->blockNumbers(false)
+                                    ->collapsed()
+                                    ->blocks(function (): array {
+                                        /** @var array $components */
+                                        $components = config('filament-cms.components', []);
+
+                                        return collect($components)
+                                            ->map(function (array $block): Block {
+                                                return $block['filament_block']::make();
+                                            })
+                                            ->values()
+                                            ->toArray();
+                                    }),
+                            ]),
+
+                        Tab::make('SEO')
+                            ->icon('heroicon-m-document-magnifying-glass')
+                            ->schema([
+                                TextInput::make('meta_title')
+                                    ->rules(['required', 'max:255'])
+                                    ->required(),
+
+                                Textarea::make('meta_description')
+                                    ->rows(4)
+                                    ->live(true)
+                                    ->helperText(function (?string $state): Htmlable {
+                                        $count = strlen($state ?? '');
+
+                                        $color = $count > 160 ? 'rgb(var(--warning-500))' : 'inherit';
+
+                                        return new HtmlString('<span style="color: '.$color.';">'.$count.' / 160 characters</span>');
+                                    }),
+
+                                Select::make('meta_robots')
+                                    ->options([
+                                        'index, follow' => 'index, follow',
+                                        'index, nofollow' => 'index, nofollow',
+                                        'noindex, nofollow' => 'noindex, nofollow',
+                                    ])
+                                    ->default('index, follow')
+                                    ->native(false),
+
+                                // TODO: File upload for og_image
                             ]),
                     ]),
             ]);
