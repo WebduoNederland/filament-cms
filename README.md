@@ -19,6 +19,11 @@ After installing the package, make sure you setup the Filament assets:
 php artisan filament:assets
 ```
 
+Publish the config file:
+```bash
+php artisan vendor:publish --provider="WebduoNederland\FilamentCms\FilamentCmsServiceProvider" --tag="config"
+```
+
 Run the migrations:
 ```bash
 php artisan migrate
