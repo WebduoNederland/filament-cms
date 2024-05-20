@@ -32,6 +32,7 @@ class FilamentCmsPanelProvider extends PanelProvider
             ])
             ->discoverResources(in: __DIR__.'/../src/Filament/Resources', for: 'WebduoNederland\\FilamentCms\\Filament\\Resources')
             ->discoverPages(in: __DIR__.'/../src/Filament/Pages', for: 'WebduoNederland\\FilamentCms\\Filament\\Pages')
+            ->discoverWidgets(in: __DIR__.'/../src/Filament/Widgets', for: 'WebduoNederland\\FilamentCms\\Filament\\Widgets')
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
