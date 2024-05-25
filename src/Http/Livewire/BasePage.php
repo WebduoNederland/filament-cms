@@ -5,6 +5,7 @@ namespace WebduoNederland\FilamentCms\Http\Livewire;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Livewire\Component;
+use WebduoNederland\FilamentCms\Data\Navigation;
 use WebduoNederland\FilamentCms\Enums\PageStatusEnum;
 use WebduoNederland\FilamentCms\Models\FilamentCmsPage;
 
@@ -36,6 +37,7 @@ class BasePage extends Component
         ])
             ->layout($layout)
             ->layoutData([
+                'navigation' => Navigation::get(),
                 'meta_title' => $this->page?->meta_title,
                 'meta_description' => $this->page?->meta_description,
                 'meta_robots' => $this->page?->meta_robots,
