@@ -22,7 +22,6 @@ class BasePage extends Component
             ->first();
 
         if (! $this->page) {
-            // TODO: Check if it's a redirect. For this a redirect resource in the Filament Panel has to be created.
             abort(404);
         }
     }
