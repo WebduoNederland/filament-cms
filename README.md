@@ -43,7 +43,7 @@ php artisan filament-cms:create-user
 
 ## Accessing the CMS
 
-The CMS can be access through the ``/cms`` path.
+The CMS can be accessed through the ``/cms`` path.
 
 ## Contributing
 
