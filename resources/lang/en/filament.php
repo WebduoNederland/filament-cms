@@ -9,4 +9,7 @@ return [
         'redirects_amount' => 'Total redirects',
         'admins_amount' => 'Total admins',
     ],
+    'globals' => [
+        'add_data_btn' => 'Add new data field',
+    ],
 ];

@@ -31,7 +31,7 @@ class FilamentCmsRedirectResource extends Resource
 
     protected static ?string $navigationLabel = 'Redirects';
 
-    protected static ?int $navigationSort = 1002;
+    protected static ?int $navigationSort = 1003;
 
     public static function form(Form $form): Form
     {
