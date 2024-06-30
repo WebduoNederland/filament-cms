@@ -7,9 +7,8 @@ use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
- * @property string $name
- * @property string $type
- * @property string $value
+ * @property array $name
+ * @property array $slug
  * @property int $sort
  * @property bool $has_sub_items
  * @property array $sub_items
@@ -25,6 +24,8 @@ class FilamentCmsNavigationItem extends Model
     protected function casts(): array
     {
         return [
+            'name' => 'array',
+            'slug' => 'array',
             'has_sub_items' => 'boolean',
             'sub_items' => 'array',
         ];

@@ -12,7 +12,8 @@
         "php": "^8.3",
         "filament/filament": "^3.2",
         "laravel/framework": "^11.0",
-        "livewire/livewire": "^3.4"
+        "livewire/livewire": "^3.4",
+        "outerweb/filament-translatable-fields": "^2.0"
     },
     "require-dev": {
         "larastan/larastan": "^2.0",
@@ -28,7 +29,10 @@
     "autoload": {
         "psr-4": {
             "WebduoNederland\\FilamentCms\\": "src"
-        }
+        },
+        "files": [
+            "src/filament-cms-helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

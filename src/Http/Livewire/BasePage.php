@@ -13,12 +13,26 @@ class BasePage extends Component
 {
     protected ?FilamentCmsPage $page;
 
+    public string $lang;
+
     public function mount(Request $request): void
     {
-        $path = $request->path();
+        $this->lang = getFilamentCmsLang();
+
+        $segments = $request->segments();
+
+        if (count($segments) > 0 && $segments[0] === $this->lang) {
+            array_shift($segments);
+        }
+
+        $slug = implode('/', $segments);
+
+        if (blank($slug)) {
+            $slug = '/';
+        }
 
         $this->page = FilamentCmsPage::query()
-            ->where('slug', '=', $path)
+            ->where('slug->'.$this->lang, '=', $slug)
             ->where('status', '=', PageStatusEnum::Published)
             ->first();
 
@@ -38,8 +52,8 @@ class BasePage extends Component
             ->layout($layout)
             ->layoutData([
                 'navigation' => Navigation::get(),
-                'meta_title' => $this->page?->meta_title,
-                'meta_description' => $this->page?->meta_description,
+                'meta_title' => $this->page?->meta_title[$this->lang],
+                'meta_description' => $this->page?->meta_description[$this->lang],
                 'meta_robots' => $this->page?->meta_robots,
             ]);
     }

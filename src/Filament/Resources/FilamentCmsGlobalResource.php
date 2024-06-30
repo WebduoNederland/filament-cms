@@ -65,9 +65,13 @@ class FilamentCmsGlobalResource extends Resource
                                                 Block::make('text')
                                                     ->icon('heroicon-m-bars-3-center-left')
                                                     ->schema([
-                                                        Textarea::make('value')
+                                                        Textarea::make(getFilamentCmsFieldName('value'))
+                                                            ->label('Value')
                                                             ->rows(4)
-                                                            ->required(),
+                                                            ->required()
+                                                            ->when(filamentCmsMultiLangEnabled(), function (Textarea $textarea): Tabs {
+                                                                return $textarea->translatable();
+                                                            }),
                                                     ]),
                                             ]),
                                     ]),

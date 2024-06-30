@@ -57,4 +57,37 @@ return [
     'route_middleware' => [
         \WebduoNederland\FilamentCms\Http\Middleware\RedirectMiddleware::class,
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Multi language
+    |--------------------------------------------------------------------------
+    |
+    | Enable multi language route support
+    |
+    */
+    'multi_language_enabled' => false,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Default language
+    |--------------------------------------------------------------------------
+    |
+    | Define the default language for your website
+    |
+    */
+    'multi_language_default' => 'en',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Available multi languages
+    |--------------------------------------------------------------------------
+    |
+    | Define the languages used on your website
+    |
+    */
+    'multi_languages' => [
+        'en' => 'English',
+        'nl' => 'Dutch',
+    ],
 ];

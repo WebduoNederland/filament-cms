@@ -4,7 +4,6 @@ namespace WebduoNederland\FilamentCms\Data;
 
 use Illuminate\Support\Collection;
 use WebduoNederland\FilamentCms\Models\FilamentCmsNavigationItem;
-use WebduoNederland\FilamentCms\Models\FilamentCmsPage;
 
 class Navigation
 {
@@ -17,28 +16,15 @@ class Navigation
                 $subItems = collect($item->sub_items);
 
                 return [
-                    'name' => $item->name,
-                    'url' => self::getUrl($item->type, $item->value),
+                    'name' => $item->name[getFilamentCmsLang()],
+                    'url' => $item->slug[getFilamentCmsLang()],
                     'sub_items' => $subItems->map(function (array $subItem): array {
                         return [
-                            'name' => $subItem['name'],
-                            'url' => self::getUrl($subItem['sub_item_type'], $subItem['value']),
+                            'name' => $subItem['name'][getFilamentCmsLang()],
+                            'url' => $subItem['slug'][getFilamentCmsLang()],
                         ];
                     }),
                 ];
             });
-    }
-
-    protected static function getUrl(string $type, string $value): string
-    {
-        if ($type === 'page') {
-            return FilamentCmsPage::query()
-                ->find($value)
-                ?->slug ?? '#';
-        } elseif ($type === 'slug') {
-            return $value;
-        }
-
-        return '#';
     }
 }

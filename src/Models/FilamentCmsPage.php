@@ -9,11 +9,11 @@ use WebduoNederland\FilamentCms\Enums\PageStatusEnum;
 /**
  * @property int $id
  * @property string $name
- * @property string $slug
+ * @property array $slug
  * @property array $components
  * @property PageStatusEnum $status
- * @property string $meta_title
- * @property ?string $meta_description
+ * @property array $meta_title
+ * @property array $meta_description
  * @property ?string $meta_robots
  * @property ?string $meta_og_image
  * @property ?Carbon $created_at
@@ -28,8 +28,11 @@ class FilamentCmsPage extends Model
     protected function casts(): array
     {
         return [
+            'slug' => 'array',
             'components' => 'array',
             'status' => PageStatusEnum::class,
+            'meta_title' => 'array',
+            'meta_description' => 'array',
         ];
     }
 }

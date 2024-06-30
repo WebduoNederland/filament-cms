@@ -10,3 +10,6 @@ parameters:
     level: 9
     checkMissingIterableValueType: false
     checkGenericClassInNonGenericObjectType: false
+
+    ignoreErrors:
+        - message: '#Call to an undefined method .*::translatable\(\).#'

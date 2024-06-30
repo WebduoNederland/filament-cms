@@ -8,5 +8,8 @@ use Livewire\Component;
 class FilamentCmsComponent extends Component
 {
     #[Locked]
+    public string $lang;
+
+    #[Locked]
     public array $data;
 }

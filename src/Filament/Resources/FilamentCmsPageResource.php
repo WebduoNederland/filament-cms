@@ -53,10 +53,14 @@ class FilamentCmsPageResource extends Resource
                                     ->rules(['required', 'max:255'])
                                     ->required(),
 
-                                TextInput::make('slug')
+                                TextInput::make(getFilamentCmsFieldName('slug'))
+                                    ->label('Slug')
                                     ->rules(['required', 'max:255'])
                                     ->helperText('If this needs to be the home/landing page simply enter a: /')
-                                    ->required(),
+                                    ->required()
+                                    ->when(filamentCmsMultiLangEnabled(), function (TextInput $textInput): Tabs {
+                                        return $textInput->translatable();
+                                    }),
 
                                 Select::make('status')
                                     ->options(PageStatusEnum::class)
@@ -92,11 +96,16 @@ class FilamentCmsPageResource extends Resource
                         Tab::make('SEO')
                             ->icon('heroicon-m-document-magnifying-glass')
                             ->schema([
-                                TextInput::make('meta_title')
+                                TextInput::make(getFilamentCmsFieldName('meta_title'))
+                                    ->label('Meta title')
                                     ->rules(['required', 'max:255'])
-                                    ->required(),
+                                    ->required()
+                                    ->when(filamentCmsMultiLangEnabled(), function (TextInput $textInput): Tabs {
+                                        return $textInput->translatable();
+                                    }),
 
-                                Textarea::make('meta_description')
+                                Textarea::make(getFilamentCmsFieldName('meta_description'))
+                                    ->label('Meta description')
                                     ->rows(4)
                                     ->live(true)
                                     ->helperText(function (?string $state): Htmlable {
@@ -105,6 +114,9 @@ class FilamentCmsPageResource extends Resource
                                         $color = $count > 160 ? 'rgb(var(--warning-500))' : 'inherit';
 
                                         return new HtmlString('<span style="color: '.$color.';">'.$count.' / 160 characters</span>');
+                                    })
+                                    ->when(filamentCmsMultiLangEnabled(), function (Textarea $textarea): Tabs {
+                                        return $textarea->translatable();
                                     }),
 
                                 Select::make('meta_robots')

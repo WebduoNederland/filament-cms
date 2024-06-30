@@ -4,7 +4,6 @@ namespace WebduoNederland\FilamentCms\Filament\Resources;
 
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\TextInput;
@@ -18,7 +17,6 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use WebduoNederland\FilamentCms\Filament\Resources\FilamentCmsNavigationItemResource\Pages;
 use WebduoNederland\FilamentCms\Models\FilamentCmsNavigationItem;
-use WebduoNederland\FilamentCms\Models\FilamentCmsPage;
 
 class FilamentCmsNavigationItemResource extends Resource
 {
@@ -48,27 +46,19 @@ class FilamentCmsNavigationItemResource extends Resource
                         Tab::make('General')
                             ->icon('heroicon-m-home')
                             ->schema([
-                                TextInput::make('name')
-                                    ->required(),
+                                TextInput::make(getFilamentCmsFieldName('name'))
+                                    ->label('Name')
+                                    ->required()
+                                    ->when(filamentCmsMultiLangEnabled(), function (TextInput $textInput): Tabs {
+                                        return $textInput->translatable();
+                                    }),
 
-                                Select::make('type')
-                                    ->options([
-                                        'slug' => 'Slug',
-                                        'page' => 'Page',
-                                    ])
-                                    ->live()
-                                    ->required(),
-
-                                TextInput::make('value')
+                                TextInput::make(getFilamentCmsFieldName('slug'))
                                     ->label('Slug')
                                     ->required()
-                                    ->hidden(fn (Get $get): bool => $get('type') !== 'slug'),
-
-                                Select::make('value')
-                                    ->label('Page')
-                                    ->options(FilamentCmsPage::query()->pluck('name', 'id'))
-                                    ->required()
-                                    ->hidden(fn (Get $get): bool => $get('type') !== 'page'),
+                                    ->when(filamentCmsMultiLangEnabled(), function (TextInput $textInput): Tabs {
+                                        return $textInput->translatable();
+                                    }),
 
                                 Toggle::make('has_sub_items')
                                     ->live(),
@@ -79,28 +69,19 @@ class FilamentCmsNavigationItemResource extends Resource
                                             ->hiddenLabel()
                                             ->reorderableWithButtons()
                                             ->schema([
-                                                TextInput::make('name')
-                                                    ->required(),
+                                                TextInput::make(getFilamentCmsFieldName('name'))
+                                                    ->label('Name')
+                                                    ->required()
+                                                    ->when(filamentCmsMultiLangEnabled(), function (TextInput $textInput): Tabs {
+                                                        return $textInput->translatable();
+                                                    }),
 
-                                                Select::make('sub_item_type')
-                                                    ->label('Type')
-                                                    ->options([
-                                                        'slug' => 'Slug',
-                                                        'page' => 'Page',
-                                                    ])
-                                                    ->live()
-                                                    ->required(),
-
-                                                TextInput::make('value')
+                                                TextInput::make(getFilamentCmsFieldName('slug'))
                                                     ->label('Slug')
                                                     ->required()
-                                                    ->hidden(fn (Get $get): bool => $get('sub_item_type') !== 'slug'),
-
-                                                Select::make('value')
-                                                    ->label('Page')
-                                                    ->options(FilamentCmsPage::query()->pluck('name', 'id'))
-                                                    ->required()
-                                                    ->hidden(fn (Get $get): bool => $get('sub_item_type') !== 'page'),
+                                                    ->when(filamentCmsMultiLangEnabled(), function (TextInput $textInput): Tabs {
+                                                        return $textInput->translatable();
+                                                    }),
                                             ]),
                                     ])
                                     ->hidden(fn (Get $get): bool => ! $get('has_sub_items')),
@@ -125,7 +106,7 @@ class FilamentCmsNavigationItemResource extends Resource
                     ->listWithLineBreaks()
                     ->bulleted()
                     ->formatStateUsing(function (array $state) {
-                        return $state['name'];
+                        return $state['slug'][config('filament-cms.multi_language_default', 'en')];
                     }),
             ])
             ->actions([

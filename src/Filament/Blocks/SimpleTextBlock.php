@@ -3,6 +3,7 @@
 namespace WebduoNederland\FilamentCms\Filament\Blocks;
 
 use Filament\Forms\Components\Builder\Block;
+use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 
@@ -13,12 +14,20 @@ class SimpleTextBlock
         return Block::make('simple_text')
             ->label('Simple text (example)')
             ->schema([
-                TextInput::make('title')
-                    ->required(),
+                TextInput::make(getFilamentCmsFieldName('title'))
+                    ->label('Title')
+                    ->required()
+                    ->when(filamentCmsMultiLangEnabled(), function (TextInput $textInput): Tabs {
+                        return $textInput->translatable();
+                    }),
 
-                Textarea::make('text')
+                Textarea::make(getFilamentCmsFieldName('text'))
+                    ->label('Text')
                     ->rows(5)
-                    ->required(),
+                    ->required()
+                    ->when(filamentCmsMultiLangEnabled(), function (Textarea $textarea): Tabs {
+                        return $textarea->translatable();
+                    }),
             ]);
     }
 }
