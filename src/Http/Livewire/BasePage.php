@@ -51,6 +51,7 @@ class BasePage extends Component
         ])
             ->layout($layout)
             ->layoutData([
+                'lang' => $this->lang,
                 'navigation' => Navigation::get(),
                 'meta_title' => $this->page?->meta_title[$this->lang],
                 'meta_description' => $this->page?->meta_description[$this->lang],
