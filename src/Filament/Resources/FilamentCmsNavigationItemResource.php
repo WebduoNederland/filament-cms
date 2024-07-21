@@ -34,7 +34,7 @@ class FilamentCmsNavigationItemResource extends Resource
 
     protected static ?string $navigationLabel = 'Navigation items';
 
-    protected static ?int $navigationSort = 1001;
+    protected static ?int $navigationSort = 1002;
 
     public static function form(Form $form): Form
     {

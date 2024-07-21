@@ -84,6 +84,7 @@ class FilamentCmsServiceProvider extends ServiceProvider
     {
         Livewire::component('filament-cms::base-page', \WebduoNederland\FilamentCms\Http\Livewire\BasePage::class);
         Livewire::component('filament-cms::simple-text', \WebduoNederland\FilamentCms\Http\Livewire\Components\SimpleText::class);
+        Livewire::component('filament-cms::blog-post', \WebduoNederland\FilamentCms\Http\Livewire\Components\BlogPost::class);
 
         return $this;
     }
