@@ -13,3 +13,4 @@ parameters:
 
     ignoreErrors:
         - message: '#Call to an undefined method .*::translatable\(\).#'
+        - message: '#Call to an undefined method .*::optimize\(\).#'

@@ -11,6 +11,7 @@
     "require": {
         "php": "^8.3",
         "filament/filament": "^3.2",
+        "joshembling/image-optimizer": "^1.4",
         "laravel/framework": "^11.0",
         "livewire/livewire": "^3.4",
         "outerweb/filament-translatable-fields": "^2.0"
