@@ -55,6 +55,7 @@ return [
     |
     */
     'route_middleware' => [
+        'web',
         \WebduoNederland\FilamentCms\Http\Middleware\RedirectMiddleware::class,
     ],
 
