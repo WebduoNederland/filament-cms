@@ -128,11 +128,15 @@ class FilamentCmsBlogResource extends Resource
                 IconColumn::make('published')
                     ->boolean()
                     ->sortable(),
+
+                TextColumn::make('publish_date')
+                    ->sortable(),
             ])
             ->actions([
                 EditAction::make(),
                 DeleteAction::make(),
-            ]);
+            ])
+            ->defaultSort('publish_date', 'desc');
     }
 
     public static function getPages(): array
