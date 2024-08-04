@@ -41,6 +41,12 @@ class FilamentCmsBlogResource extends Resource
 
     public static function form(Form $form): Form
     {
+        /** @var string $blogDisk */
+        $blogDisk = config('filament-cms.blog_assets_disk');
+
+        /** @var string $blogPath */
+        $blogPath = config('filament-cms.blog_assets_path');
+
         return $form
             ->schema([
                 Tabs::make('Tabs')
@@ -85,8 +91,8 @@ class FilamentCmsBlogResource extends Resource
                                             ->image()
                                             ->optimize('webp')
                                             ->removeUploadedFileButtonPosition('bottom right')
-                                            ->disk(config('filament-cms.blog_assets_disk'))
-                                            ->directory(config('filament-cms.blog_assets_path'))
+                                            ->disk($blogDisk)
+                                            ->directory($blogPath)
                                             ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
                                                 $fileName = str($file->getClientOriginalName());
 
