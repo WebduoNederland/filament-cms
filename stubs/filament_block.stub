@@ -1,0 +1,17 @@
+<?php
+
+namespace App\FilamentCmsBlocks;
+
+use Filament\Forms\Components\Builder\Block;
+
+class {{ class_name }}Block
+{
+    public static function make(): Block
+    {
+        return Block::make('{{ lowercase_name }}')
+            ->label('{{ label }}')
+            ->schema([
+                //
+            ]);
+    }
+}
