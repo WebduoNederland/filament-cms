@@ -29,12 +29,6 @@ Run the migrations:
 php artisan migrate
 ```
 
-## Testing
-
-```bash
-composer test
-```
-
 ## Creating an admin
 
 ```bash
@@ -44,6 +38,12 @@ php artisan filament-cms:create-user
 ## Accessing the CMS
 
 The CMS can be accessed through the ``/cms`` path.
+
+## Create your first component
+
+```bash
+php artisan filament-cms:create-component
+```
 
 ## Contributing
 
