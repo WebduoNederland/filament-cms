@@ -60,6 +60,7 @@ class FilamentCmsServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 \WebduoNederland\FilamentCms\Console\Commands\CreateUserCommand::class,
+                \WebduoNederland\FilamentCms\Console\Commands\CreateComponentCommand::class,
             ]);
         }
 

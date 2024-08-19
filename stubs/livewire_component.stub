@@ -1,0 +1,14 @@
+<?php
+
+namespace App\Livewire;
+
+use Illuminate\View\View;
+use WebduoNederland\FilamentCms\Http\Livewire\Components\FilamentCmsComponent;
+
+class {{ class_name }} extends FilamentCmsComponent
+{
+    public function render(): View
+    {
+        return view('livewire.{{ view_name }}');
+    }
+}
