@@ -55,11 +55,13 @@ class FilamentCmsBlogResource extends Resource
                         Tab::make('General')
                             ->icon('heroicon-m-home')
                             ->schema([
-                                TextInput::make('name')
+                                TextInput::make(getFilamentCmsFieldName('name'))
                                     ->label('Name')
                                     ->rules(['required', 'max:255'])
                                     ->required()
-                                    ->translatable(),
+                                    ->when(filamentCmsMultiLangEnabled(), function (TextInput $textInput): Tabs {
+                                        return $textInput->translatable();
+                                    }),
 
                                 TextInput::make(getFilamentCmsFieldName('slug'))
                                     ->label('Slug')
@@ -100,20 +102,24 @@ class FilamentCmsBlogResource extends Resource
                                             })
                                             ->required(),
 
-                                        TextInput::make('alt')
+                                        TextInput::make(getFilamentCmsFieldName('alt'))
                                             ->label('Alt text (image description)')
                                             ->rules(['max:255'])
-                                            ->translatable(),
+                                            ->when(filamentCmsMultiLangEnabled(), function (TextInput $textInput): Tabs {
+                                                return $textInput->translatable();
+                                            }),
                                     ]),
                             ]),
 
                         Tab::make('Content')
                             ->icon('heroicon-m-bars-3-center-left')
                             ->schema([
-                                RichEditor::make('content')
+                                RichEditor::make(getFilamentCmsFieldName('content'))
                                     ->label('Content')
                                     ->required()
-                                    ->translatable(),
+                                    ->when(filamentCmsMultiLangEnabled(), function (RichEditor $richEditor): Tabs {
+                                        return $richEditor->translatable();
+                                    }),
                             ]),
                     ]),
             ]);

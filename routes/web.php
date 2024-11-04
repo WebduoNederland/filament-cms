@@ -5,4 +5,5 @@ use WebduoNederland\FilamentCms\Http\Livewire\BasePage;
 
 Route::get('/{segments?}', BasePage::class)
     ->where('segments', '.*')
-    ->middleware(config('filament-cms.route_middleware'));
+    ->middleware(config('filament-cms.route_middleware'))
+    ->name('segments-page');
