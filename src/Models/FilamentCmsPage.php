@@ -51,7 +51,7 @@ class FilamentCmsPage extends Model implements Sitemapable
 
             foreach ($this->slug as $lang => $slug) {
                 if ($lang !== $defaultMultiLang) {
-                    $slug = str($slug)->prepend($lang.'/');
+                    $slug = str($slug)->prepend($lang.'/')->toString();
                 }
 
                 $urls[] = Url::create(route('segments-page', ['segments' => $slug]))

@@ -44,8 +44,15 @@ class FilamentCmsBlog extends Model implements Sitemapable
         if (config('filament-cms.multi_language_enabled', false)) {
             $urls = [];
 
-            foreach ($this->slug as $slug) {
+            /** @var string $defaultMultiLang */
+            $defaultMultiLang = config('filament-cms.multi_language_default', 'en');
+            
+            foreach ($this->slug as $lang => $slug) {
                 $slug = str($slug)->prepend('blog/')->toString();
+
+                if ($lang !== $defaultMultiLang) {
+                    $slug = str($slug)->prepend($lang.'/')->toString();
+                }
 
                 $urls[] = Url::create(route('segments-page', ['segments' => $slug]))
                     ->setLastModificationDate(Carbon::create($this->updated_at ?? now())); // @phpstan-ignore-line
