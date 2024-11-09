@@ -29,6 +29,14 @@ Run the migrations:
 php artisan migrate
 ```
 
+Add the following command to your composer.json post-autoload-dump:
+```json
+"post-autoload-dump": [
+    // ...
+    "@php artisan filament:upgrade"
+],
+```
+
 ## Creating an admin
 
 ```bash
