@@ -92,7 +92,9 @@ class FilamentCmsServiceProvider extends ServiceProvider
 
     protected function bootRoutes(): self
     {
-        $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
+        $this->app->booted(function (): void {
+            $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
+        });
 
         return $this;
     }

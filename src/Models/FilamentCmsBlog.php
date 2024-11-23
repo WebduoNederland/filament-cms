@@ -46,7 +46,7 @@ class FilamentCmsBlog extends Model implements Sitemapable
 
             /** @var string $defaultMultiLang */
             $defaultMultiLang = config('filament-cms.multi_language_default', 'en');
-            
+
             foreach ($this->slug as $lang => $slug) {
                 $slug = str($slug)->prepend('blog/')->toString();
 
