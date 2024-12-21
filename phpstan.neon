@@ -8,8 +8,8 @@ parameters:
         - tests/
 
     level: 9
-    checkMissingIterableValueType: false
-    checkGenericClassInNonGenericObjectType: false
 
     ignoreErrors:
+        - identifier: missingType.generics
+        - identifier: missingType.iterableValue
         - message: '#Call to an undefined method .*::translatable\(\).#'
