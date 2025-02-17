@@ -4,6 +4,7 @@ namespace WebduoNederland\FilamentCms\Filament\Resources;
 
 use Filament\Forms\Components\Builder;
 use Filament\Forms\Components\Builder\Block;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Tabs\Tab;
@@ -63,6 +64,7 @@ class FilamentCmsGlobalResource extends Resource
                                             ->blocks([
                                                 // Text
                                                 Block::make('text')
+                                                    ->label('Text')
                                                     ->icon('heroicon-m-bars-3-center-left')
                                                     ->schema([
                                                         Textarea::make(getFilamentCmsFieldName('value'))
@@ -72,6 +74,32 @@ class FilamentCmsGlobalResource extends Resource
                                                             ->when(filamentCmsMultiLangEnabled(), function (Textarea $textarea): Tabs {
                                                                 return $textarea->translatable();
                                                             }),
+                                                    ]),
+
+                                                Block::make('footer-links')
+                                                    ->label('Footer links')
+                                                    ->icon('heroicon-m-link')
+                                                    ->schema([
+                                                        TextInput::make('title')
+                                                            ->required()
+                                                            ->when(filamentCmsMultiLangEnabled(), function (TextInput $textInput): Tabs {
+                                                                return $textInput->translatable();
+                                                            }),
+
+                                                        Repeater::make('links')
+                                                            ->schema([
+                                                                TextInput::make('label')
+                                                                    ->required()
+                                                                    ->when(filamentCmsMultiLangEnabled(), function (TextInput $textInput): Tabs {
+                                                                        return $textInput->translatable();
+                                                                    }),
+
+                                                                TextInput::make('link')
+                                                                    ->required()
+                                                                    ->when(filamentCmsMultiLangEnabled(), function (TextInput $textInput): Tabs {
+                                                                        return $textInput->translatable();
+                                                                    }),
+                                                            ]),
                                                     ]),
                                             ]),
                                     ]),
