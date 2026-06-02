@@ -2,17 +2,19 @@
 
 namespace WebduoNederland\FilamentCms\Filament\Resources;
 
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Tabs;
-use Filament\Forms\Components\Tabs\Tab;
+use BackedEnum;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\EditAction;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Hash;
+use UnitEnum;
 use WebduoNederland\FilamentCms\Filament\Resources\FilamentCmsAdminResource\Pages;
 use WebduoNederland\FilamentCms\Models\FilamentCmsAdmin;
 
@@ -26,18 +28,18 @@ class FilamentCmsAdminResource extends Resource
 
     protected static ?string $pluralModelLabel = 'admins';
 
-    protected static ?string $navigationGroup = 'Admin';
+    protected static string|UnitEnum|null $navigationGroup = 'Admin';
 
-    protected static ?string $navigationIcon = 'heroicon-m-users';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-m-users';
 
     protected static ?string $navigationLabel = 'Admins';
 
     protected static ?int $navigationSort = 10000;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Tabs::make('Tabs')
                     ->columnSpanFull()
                     ->tabs([

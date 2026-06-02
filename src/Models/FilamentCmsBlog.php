@@ -11,10 +11,10 @@ use WebduoNederland\FilamentCms\Observers\FilamentCmsBlogObserver;
 
 /**
  * @property int $id
- * @property array $name
- * @property array $slug
- * @property array $content
- * @property array $images
+ * @property array<string, string> $name
+ * @property array<string, string> $slug
+ * @property array<string, string> $content
+ * @property array<int, array<string, mixed>> $images
  * @property Carbon $publish_date
  * @property bool $published
  * @property ?Carbon $created_at
@@ -61,7 +61,10 @@ class FilamentCmsBlog extends Model implements Sitemapable
             return $urls;
         }
 
-        $slug = str($this->slug[config('filament-cms.multi_language_default', 'en')])->prepend('blog/')->toString();
+        /** @var string $defaultMultiLang */
+        $defaultMultiLang = config('filament-cms.multi_language_default', 'en');
+
+        $slug = str($this->slug[$defaultMultiLang])->prepend('blog/')->toString();
 
         return Url::create(route('segments-page', ['segments' => $slug]))
             ->setLastModificationDate(Carbon::create($this->updated_at ?? now())); // @phpstan-ignore-line

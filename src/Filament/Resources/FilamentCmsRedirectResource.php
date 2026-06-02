@@ -2,16 +2,18 @@
 
 namespace WebduoNederland\FilamentCms\Filament\Resources;
 
+use BackedEnum;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Tabs;
-use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\EditAction;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use UnitEnum;
 use WebduoNederland\FilamentCms\Filament\Resources\FilamentCmsRedirectResource\Pages;
 use WebduoNederland\FilamentCms\Models\FilamentCmsRedirect;
 
@@ -25,18 +27,18 @@ class FilamentCmsRedirectResource extends Resource
 
     protected static ?string $pluralModelLabel = 'redirects';
 
-    protected static ?string $navigationGroup = 'General';
+    protected static string|UnitEnum|null $navigationGroup = 'General';
 
-    protected static ?string $navigationIcon = 'heroicon-m-arrow-uturn-right';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-m-arrow-uturn-right';
 
     protected static ?string $navigationLabel = 'Redirects';
 
     protected static ?int $navigationSort = 1004;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Tabs::make('Tabs')
                     ->columnSpanFull()
                     ->tabs([

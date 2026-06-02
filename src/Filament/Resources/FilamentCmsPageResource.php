@@ -2,21 +2,22 @@
 
 namespace WebduoNederland\FilamentCms\Filament\Resources;
 
+use BackedEnum;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\Builder;
-use Filament\Forms\Components\Builder\Block;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Tabs;
-use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\EditAction;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\HtmlString;
+use UnitEnum;
 use WebduoNederland\FilamentCms\Enums\PageStatusEnum;
 use WebduoNederland\FilamentCms\Filament\Resources\FilamentCmsPageResource\Pages;
 use WebduoNederland\FilamentCms\Models\FilamentCmsPage;
@@ -31,18 +32,18 @@ class FilamentCmsPageResource extends Resource
 
     protected static ?string $pluralModelLabel = 'pages';
 
-    protected static ?string $navigationGroup = 'General';
+    protected static string|UnitEnum|null $navigationGroup = 'General';
 
-    protected static ?string $navigationIcon = 'heroicon-m-document-text';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-m-document-text';
 
     protected static ?string $navigationLabel = 'Pages';
 
     protected static ?int $navigationSort = 1000;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Tabs::make('Tabs')
                     ->columnSpanFull()
                     ->tabs([
@@ -58,9 +59,7 @@ class FilamentCmsPageResource extends Resource
                                     ->rules(['required', 'max:255'])
                                     ->helperText('If this needs to be the home/landing page simply enter a: /')
                                     ->required()
-                                    ->when(filamentCmsMultiLangEnabled(), function (TextInput $textInput): Tabs {
-                                        return $textInput->translatable();
-                                    }),
+                                    ->when(filamentCmsMultiLangEnabled(), fn (TextInput $field): TextInput => $field->translatable()),
 
                                 Select::make('status')
                                     ->options(PageStatusEnum::class)
@@ -81,15 +80,23 @@ class FilamentCmsPageResource extends Resource
                                     ->blockNumbers(false)
                                     ->collapsed()
                                     ->blocks(function (): array {
-                                        /** @var array $components */
                                         $components = config('filament-cms.components', []);
 
-                                        return collect($components)
-                                            ->map(function (array $block): Block {
-                                                return $block['filament_block']::make();
-                                            })
-                                            ->values()
-                                            ->toArray();
+                                        if (! is_array($components)) {
+                                            return [];
+                                        }
+
+                                        $blocks = [];
+
+                                        foreach ($components as $block) {
+                                            if (! is_array($block) || ! isset($block['filament_block']) || ! is_string($block['filament_block'])) {
+                                                continue;
+                                            }
+
+                                            $blocks[] = $block['filament_block']::make();
+                                        }
+
+                                        return $blocks;
                                     }),
                             ]),
 
@@ -100,9 +107,7 @@ class FilamentCmsPageResource extends Resource
                                     ->label('Meta title')
                                     ->rules(['required', 'max:255'])
                                     ->required()
-                                    ->when(filamentCmsMultiLangEnabled(), function (TextInput $textInput): Tabs {
-                                        return $textInput->translatable();
-                                    }),
+                                    ->when(filamentCmsMultiLangEnabled(), fn (TextInput $field): TextInput => $field->translatable()),
 
                                 Textarea::make(getFilamentCmsFieldName('meta_description'))
                                     ->label('Meta description')
@@ -115,9 +120,7 @@ class FilamentCmsPageResource extends Resource
 
                                         return new HtmlString('<span style="color: '.$color.';">'.$count.' / 160 characters</span>');
                                     })
-                                    ->when(filamentCmsMultiLangEnabled(), function (Textarea $textarea): Tabs {
-                                        return $textarea->translatable();
-                                    }),
+                                    ->when(filamentCmsMultiLangEnabled(), fn (Textarea $field): Textarea => $field->translatable()),
 
                                 Select::make('meta_robots')
                                     ->options([

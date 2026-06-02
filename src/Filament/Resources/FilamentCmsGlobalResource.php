@@ -2,20 +2,22 @@
 
 namespace WebduoNederland\FilamentCms\Filament\Resources;
 
+use BackedEnum;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\Builder;
 use Filament\Forms\Components\Builder\Block;
 use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Tabs;
-use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\EditAction;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use UnitEnum;
 use WebduoNederland\FilamentCms\Filament\Resources\FilamentCmsGlobalResource\Pages;
 use WebduoNederland\FilamentCms\Models\FilamentCmsGlobal;
 
@@ -29,18 +31,18 @@ class FilamentCmsGlobalResource extends Resource
 
     protected static ?string $pluralModelLabel = 'globals';
 
-    protected static ?string $navigationGroup = 'General';
+    protected static string|UnitEnum|null $navigationGroup = 'General';
 
-    protected static ?string $navigationIcon = 'heroicon-m-star';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-m-star';
 
     protected static ?string $navigationLabel = 'Globals';
 
     protected static ?int $navigationSort = 1003;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Tabs::make('Tabs')
                     ->columnSpanFull()
                     ->tabs([
@@ -71,9 +73,7 @@ class FilamentCmsGlobalResource extends Resource
                                                             ->label('Value')
                                                             ->rows(4)
                                                             ->required()
-                                                            ->when(filamentCmsMultiLangEnabled(), function (Textarea $textarea): Tabs {
-                                                                return $textarea->translatable();
-                                                            }),
+                                                            ->when(filamentCmsMultiLangEnabled(), fn (Textarea $field): Textarea => $field->translatable()),
                                                     ]),
 
                                                 Block::make('footer-links')
@@ -82,23 +82,17 @@ class FilamentCmsGlobalResource extends Resource
                                                     ->schema([
                                                         TextInput::make('title')
                                                             ->required()
-                                                            ->when(filamentCmsMultiLangEnabled(), function (TextInput $textInput): Tabs {
-                                                                return $textInput->translatable();
-                                                            }),
+                                                            ->when(filamentCmsMultiLangEnabled(), fn (TextInput $field): TextInput => $field->translatable()),
 
                                                         Repeater::make('links')
                                                             ->schema([
                                                                 TextInput::make('label')
                                                                     ->required()
-                                                                    ->when(filamentCmsMultiLangEnabled(), function (TextInput $textInput): Tabs {
-                                                                        return $textInput->translatable();
-                                                                    }),
+                                                                    ->when(filamentCmsMultiLangEnabled(), fn (TextInput $field): TextInput => $field->translatable()),
 
                                                                 TextInput::make('link')
                                                                     ->required()
-                                                                    ->when(filamentCmsMultiLangEnabled(), function (TextInput $textInput): Tabs {
-                                                                        return $textInput->translatable();
-                                                                    }),
+                                                                    ->when(filamentCmsMultiLangEnabled(), fn (TextInput $field): TextInput => $field->translatable()),
                                                             ]),
                                                     ]),
                                             ]),

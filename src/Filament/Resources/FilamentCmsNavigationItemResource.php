@@ -2,19 +2,21 @@
 
 namespace WebduoNederland\FilamentCms\Filament\Resources;
 
+use BackedEnum;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Tabs;
-use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Form;
-use Filament\Forms\Get;
 use Filament\Resources\Resource;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\EditAction;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use UnitEnum;
 use WebduoNederland\FilamentCms\Filament\Resources\FilamentCmsNavigationItemResource\Pages;
 use WebduoNederland\FilamentCms\Models\FilamentCmsNavigationItem;
 
@@ -28,18 +30,18 @@ class FilamentCmsNavigationItemResource extends Resource
 
     protected static ?string $pluralModelLabel = 'navigation items';
 
-    protected static ?string $navigationGroup = 'General';
+    protected static string|UnitEnum|null $navigationGroup = 'General';
 
-    protected static ?string $navigationIcon = 'heroicon-m-queue-list';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-m-queue-list';
 
     protected static ?string $navigationLabel = 'Navigation items';
 
     protected static ?int $navigationSort = 1002;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Tabs::make('Tabs')
                     ->columnSpanFull()
                     ->tabs([
@@ -49,16 +51,12 @@ class FilamentCmsNavigationItemResource extends Resource
                                 TextInput::make(getFilamentCmsFieldName('name'))
                                     ->label('Name')
                                     ->required()
-                                    ->when(filamentCmsMultiLangEnabled(), function (TextInput $textInput): Tabs {
-                                        return $textInput->translatable();
-                                    }),
+                                    ->when(filamentCmsMultiLangEnabled(), fn (TextInput $field): TextInput => $field->translatable()),
 
                                 TextInput::make(getFilamentCmsFieldName('slug'))
                                     ->label('Slug')
                                     ->required()
-                                    ->when(filamentCmsMultiLangEnabled(), function (TextInput $textInput): Tabs {
-                                        return $textInput->translatable();
-                                    }),
+                                    ->when(filamentCmsMultiLangEnabled(), fn (TextInput $field): TextInput => $field->translatable()),
 
                                 Toggle::make('has_sub_items')
                                     ->live(),
@@ -72,16 +70,12 @@ class FilamentCmsNavigationItemResource extends Resource
                                                 TextInput::make(getFilamentCmsFieldName('name'))
                                                     ->label('Name')
                                                     ->required()
-                                                    ->when(filamentCmsMultiLangEnabled(), function (TextInput $textInput): Tabs {
-                                                        return $textInput->translatable();
-                                                    }),
+                                                    ->when(filamentCmsMultiLangEnabled(), fn (TextInput $field): TextInput => $field->translatable()),
 
                                                 TextInput::make(getFilamentCmsFieldName('slug'))
                                                     ->label('Slug')
                                                     ->required()
-                                                    ->when(filamentCmsMultiLangEnabled(), function (TextInput $textInput): Tabs {
-                                                        return $textInput->translatable();
-                                                    }),
+                                                    ->when(filamentCmsMultiLangEnabled(), fn (TextInput $field): TextInput => $field->translatable()),
                                             ]),
                                     ])
                                     ->hidden(fn (Get $get): bool => ! $get('has_sub_items')),
@@ -106,7 +100,10 @@ class FilamentCmsNavigationItemResource extends Resource
                     ->listWithLineBreaks()
                     ->bulleted()
                     ->formatStateUsing(function (array $state) {
-                        return $state['slug'][config('filament-cms.multi_language_default', 'en')];
+                        /** @var string $defaultLanguage */
+                        $defaultLanguage = config('filament-cms.multi_language_default', 'en');
+
+                        return $state['slug'][$defaultLanguage];
                     }),
             ])
             ->actions([

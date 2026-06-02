@@ -4,7 +4,9 @@ Highly advanced CMS for your Laravel website built with FilamentPHP!
 
 ## Requirements
 
-- Laravel 11 or higher
+- Laravel 13 or higher
+- Filament 5 or higher
+- Livewire 4 or higher
 - PHP 8.3 or higher
 
 ## Installation

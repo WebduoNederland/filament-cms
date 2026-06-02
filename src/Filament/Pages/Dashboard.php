@@ -2,33 +2,16 @@
 
 namespace WebduoNederland\FilamentCms\Filament\Pages;
 
-use Filament\Facades\Filament;
-use Filament\Pages\Page;
+use BackedEnum;
+use Filament\Pages\Dashboard as BaseDashboard;
 
-class Dashboard extends Page
+class Dashboard extends BaseDashboard
 {
     protected static string $routePath = '/';
 
     protected static ?int $navigationSort = -100;
 
-    protected static ?string $navigationIcon = 'heroicon-m-home';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-m-home';
 
     protected static ?string $navigationLabel = 'Dashboard';
-
-    protected static string $view = 'filament-panels::pages.dashboard';
-
-    public function getWidgets(): array
-    {
-        return Filament::getWidgets();
-    }
-
-    public function getVisibleWidgets(): array
-    {
-        return $this->filterVisibleWidgets($this->getWidgets());
-    }
-
-    public function getColumns(): int|string|array
-    {
-        return 2;
-    }
 }

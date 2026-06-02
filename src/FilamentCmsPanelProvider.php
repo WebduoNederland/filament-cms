@@ -15,7 +15,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Outerweb\FilamentTranslatableFields\Filament\Plugins\FilamentTranslatableFieldsPlugin;
+use Outerweb\FilamentTranslatableFields\TranslatableFieldsPlugin;
 
 class FilamentCmsPanelProvider extends PanelProvider
 {
@@ -52,7 +52,7 @@ class FilamentCmsPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->plugins([
-                FilamentTranslatableFieldsPlugin::make()
+                TranslatableFieldsPlugin::make()
                     ->supportedLocales($supportedLocales),
             ])
             ->authGuard('filament-cms');
