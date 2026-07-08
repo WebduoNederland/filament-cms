@@ -5,6 +5,12 @@ namespace WebduoNederland\FilamentCms;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
+use WebduoNederland\FilamentCms\Console\Commands\CreateComponentCommand;
+use WebduoNederland\FilamentCms\Console\Commands\CreateUserCommand;
+use WebduoNederland\FilamentCms\Http\Livewire\BasePage;
+use WebduoNederland\FilamentCms\Http\Livewire\Components\BlogPost;
+use WebduoNederland\FilamentCms\Http\Livewire\Components\SimpleText;
+use WebduoNederland\FilamentCms\Models\FilamentCmsAdmin;
 
 class FilamentCmsServiceProvider extends ServiceProvider
 {
@@ -33,7 +39,7 @@ class FilamentCmsServiceProvider extends ServiceProvider
 
         Config::set('auth.providers.filament-cms', [
             'driver' => 'eloquent',
-            'model' => \WebduoNederland\FilamentCms\Models\FilamentCmsAdmin::class,
+            'model' => FilamentCmsAdmin::class,
         ]);
 
         return $this;
@@ -59,8 +65,8 @@ class FilamentCmsServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
-                \WebduoNederland\FilamentCms\Console\Commands\CreateUserCommand::class,
-                \WebduoNederland\FilamentCms\Console\Commands\CreateComponentCommand::class,
+                CreateUserCommand::class,
+                CreateComponentCommand::class,
             ]);
         }
 
@@ -83,9 +89,9 @@ class FilamentCmsServiceProvider extends ServiceProvider
 
     protected function bootLivewire(): self
     {
-        Livewire::component('filament-cms::base-page', \WebduoNederland\FilamentCms\Http\Livewire\BasePage::class);
-        Livewire::component('filament-cms::simple-text', \WebduoNederland\FilamentCms\Http\Livewire\Components\SimpleText::class);
-        Livewire::component('filament-cms::blog-post', \WebduoNederland\FilamentCms\Http\Livewire\Components\BlogPost::class);
+        Livewire::component('filament-cms.base-page', BasePage::class);
+        Livewire::component('filament-cms.simple-text', SimpleText::class);
+        Livewire::component('filament-cms.blog-post', BlogPost::class);
 
         return $this;
     }

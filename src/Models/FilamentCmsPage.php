@@ -13,11 +13,11 @@ use WebduoNederland\FilamentCms\Observers\FilamentCmsPageObserver;
 /**
  * @property int $id
  * @property string $name
- * @property array $slug
- * @property array $components
+ * @property array<string, string> $slug
+ * @property array<int, array<string, mixed>> $components
  * @property PageStatusEnum $status
- * @property array $meta_title
- * @property array $meta_description
+ * @property array<string, string> $meta_title
+ * @property array<string, string> $meta_description
  * @property ?string $meta_robots
  * @property ?string $meta_og_image
  * @property ?Carbon $created_at
@@ -61,7 +61,10 @@ class FilamentCmsPage extends Model implements Sitemapable
             return $urls;
         }
 
-        return Url::create(route('segments-page', ['segments' => $this->slug[config('filament-cms.multi_language_default', 'en')]]))
+        /** @var string $defaultMultiLang */
+        $defaultMultiLang = config('filament-cms.multi_language_default', 'en');
+
+        return Url::create(route('segments-page', ['segments' => $this->slug[$defaultMultiLang]]))
             ->setLastModificationDate(Carbon::create($this->updated_at ?? now())); // @phpstan-ignore-line
     }
 }

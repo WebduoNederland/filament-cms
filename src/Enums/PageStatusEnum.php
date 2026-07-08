@@ -9,7 +9,7 @@ enum PageStatusEnum: string implements HasLabel
     case Published = 'published';
     case Unpublished = 'unpublished';
 
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return match ($this) {
             self::Published => __('filament-cms::enums.page_status.published'),

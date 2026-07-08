@@ -17,7 +17,10 @@ if (! function_exists('getFilamentCmsFieldName')) {
             return $name;
         }
 
-        return $name.'.'.config('filament-cms.multi_language_default', 'en');
+        /** @var string $defaultLanguage */
+        $defaultLanguage = config('filament-cms.multi_language_default', 'en');
+
+        return $name.'.'.$defaultLanguage;
     }
 }
 

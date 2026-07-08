@@ -1,5 +1,8 @@
 <?php
 
+use WebduoNederland\FilamentCms\Filament\Blocks\SimpleTextBlock;
+use WebduoNederland\FilamentCms\Http\Middleware\RedirectMiddleware;
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -21,8 +24,8 @@ return [
     */
     'components' => [
         'simple_text' => [
-            'filament_block' => \WebduoNederland\FilamentCms\Filament\Blocks\SimpleTextBlock::class,
-            'livewire_component' => 'filament-cms::simple-text',
+            'filament_block' => SimpleTextBlock::class,
+            'livewire_component' => 'filament-cms.simple-text',
         ],
     ],
 
@@ -56,7 +59,7 @@ return [
     */
     'route_middleware' => [
         'web',
-        \WebduoNederland\FilamentCms\Http\Middleware\RedirectMiddleware::class,
+        RedirectMiddleware::class,
     ],
 
     /*
@@ -120,7 +123,7 @@ return [
     | Define the component for a single blog
     |
     */
-    'blog_component' => 'filament-cms::blog-post',
+    'blog_component' => 'filament-cms.blog-post',
 
     /*
     |--------------------------------------------------------------------------

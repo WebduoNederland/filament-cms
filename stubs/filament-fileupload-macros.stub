@@ -1,0 +1,12 @@
+<?php
+
+namespace Filament\Forms\Components;
+
+use Closure;
+
+/**
+ * @method $this optimize(string|Closure|null $format = 'webp', int|Closure|null $quality = null)
+ */
+class FileUpload
+{
+}

@@ -2,22 +2,24 @@
 
 namespace WebduoNederland\FilamentCms\Filament\Resources;
 
+use BackedEnum;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\Tabs;
-use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\EditAction;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+use UnitEnum;
 use WebduoNederland\FilamentCms\Filament\Resources\FilamentCmsBlogResource\Pages;
 use WebduoNederland\FilamentCms\Models\FilamentCmsBlog;
 
@@ -31,15 +33,15 @@ class FilamentCmsBlogResource extends Resource
 
     protected static ?string $pluralModelLabel = 'blogs';
 
-    protected static ?string $navigationGroup = 'General';
+    protected static string|UnitEnum|null $navigationGroup = 'General';
 
-    protected static ?string $navigationIcon = 'heroicon-m-newspaper';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-m-newspaper';
 
     protected static ?string $navigationLabel = 'Blogs';
 
     protected static ?int $navigationSort = 1001;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
         /** @var string $blogDisk */
         $blogDisk = config('filament-cms.blog_assets_disk');
@@ -47,8 +49,8 @@ class FilamentCmsBlogResource extends Resource
         /** @var string $blogPath */
         $blogPath = config('filament-cms.blog_assets_path');
 
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Tabs::make('Tabs')
                     ->columnSpanFull()
                     ->tabs([
@@ -59,17 +61,13 @@ class FilamentCmsBlogResource extends Resource
                                     ->label('Name')
                                     ->rules(['required', 'max:255'])
                                     ->required()
-                                    ->when(filamentCmsMultiLangEnabled(), function (TextInput $textInput): Tabs {
-                                        return $textInput->translatable();
-                                    }),
+                                    ->when(filamentCmsMultiLangEnabled(), fn (TextInput $field): TextInput => $field->translatable()),
 
                                 TextInput::make(getFilamentCmsFieldName('slug'))
                                     ->label('Slug')
-                                    ->rules(['required', ':max255'])
+                                    ->rules(['required', 'max:255'])
                                     ->required()
-                                    ->when(filamentCmsMultiLangEnabled(), function (TextInput $textInput): Tabs {
-                                        return $textInput->translatable();
-                                    }),
+                                    ->when(filamentCmsMultiLangEnabled(), fn (TextInput $field): TextInput => $field->translatable()),
 
                                 DateTimePicker::make('publish_date')
                                     ->label('Publish date')
@@ -105,9 +103,7 @@ class FilamentCmsBlogResource extends Resource
                                         TextInput::make(getFilamentCmsFieldName('alt'))
                                             ->label('Alt text (image description)')
                                             ->rules(['max:255'])
-                                            ->when(filamentCmsMultiLangEnabled(), function (TextInput $textInput): Tabs {
-                                                return $textInput->translatable();
-                                            }),
+                                            ->when(filamentCmsMultiLangEnabled(), fn (TextInput $field): TextInput => $field->translatable()),
                                     ]),
                             ]),
 
@@ -117,9 +113,7 @@ class FilamentCmsBlogResource extends Resource
                                 RichEditor::make(getFilamentCmsFieldName('content'))
                                     ->label('Content')
                                     ->required()
-                                    ->when(filamentCmsMultiLangEnabled(), function (RichEditor $richEditor): Tabs {
-                                        return $richEditor->translatable();
-                                    }),
+                                    ->when(filamentCmsMultiLangEnabled(), fn (RichEditor $field): RichEditor => $field->translatable()),
                             ]),
                     ]),
             ]);
